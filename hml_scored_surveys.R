@@ -11,6 +11,9 @@
 # install.packages("RPostgres")
 # install.packages("DBI")
 
+# Load environment variables from .Renviron in the working directory
+readRenviron(".Renviron")
+
 require(DBI)
 require(RPostgres)
 library(dplyr)
