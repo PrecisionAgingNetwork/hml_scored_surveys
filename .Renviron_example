@@ -1,0 +1,6 @@
+# Rename to .Renviron once values are updated
+user = "db_user_name"
+password = "password_goes_here"
+dbname = "pan_data"
+host = "db_host"
+port = 5432
