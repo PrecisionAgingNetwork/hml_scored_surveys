@@ -312,20 +312,22 @@ sleep$sleep_somnolence <- sleep$sleep_v1028 + sleep$sleep_v1030 + sleep$sleep_v1
 
 # Combine and save scored surveys ----------------------------
 
-scored_surveys <- select(stress, hml_id, stress_total) %>%
-  full_join(select(social_stressor, hml_id, nr_of_stressful_events, socstress_total), 
-            by = "hml_id") %>%
-  full_join(select(social_support, hml_id, loneliness_total, MSPSS_total, MSPSS_family,
-                   MSPSS_friends, MSPSS_so), by = "hml_id") %>%
-  full_join(select(swls, hml_id, swls_total), by = "hml_id") %>%
-  full_join(select(anx, hml_id, anxiety_intensity, anxiety_frequency, anxiety_total),
-            by = "hml_id") %>%
-  full_join(select(sleep, hml_id, sleep_quantity, sleep_initiation, sleep_maintenance,
+scored_surveys <- select(stress, hml_id, visit, stress_total) %>%
+  full_join(select(social_stressor, hml_id, visit, nr_of_stressful_events, socstress_total), 
+            by = c("hml_id", "visit")) %>%
+  full_join(select(social_support, hml_id, visit, loneliness_total, MSPSS_total, MSPSS_family,
+                   MSPSS_friends, MSPSS_so), 
+            by = c("hml_id", "visit")) %>%
+  full_join(select(swls, hml_id, visit, swls_total), 
+            by = c("hml_id", "visit")) %>%
+  full_join(select(anx, hml_id, visit, anxiety_intensity, anxiety_frequency, anxiety_total),
+            by = c("hml_id", "visit")) %>%
+  full_join(select(sleep, hml_id, visit, sleep_quantity, sleep_initiation, sleep_maintenance,
                    sleep_respiratory_problems, sleep_perceived_adequacy, sleep_somnolence),
-            by = "hml_id") %>%
-  full_join(select(qpar, hml_id, dose1, dose2, dose3, dose4, dose5, dose6, dose7, dose8, qpar_total, 
+            by = c("hml_id", "visit")) %>%
+  full_join(select(qpar, hml_id, visit, dose1, dose2, dose3, dose4, dose5, dose6, dose7, dose8, qpar_total, 
                    qpar_mild_dose, qpar_moderate_dose, qpar_heavy_dose), 
-            by = "hml_id")
+            by = c("hml_id", "visit"))
 
 write.csv(scored_surveys, file = "hml_scored_surveys.csv", row.names = FALSE)
 
@@ -360,4 +362,5 @@ sql <- sprintf("
 )
 
 # Execute it
+
 DBI::dbExecute(con, sql)
