@@ -353,11 +353,10 @@ quoted_update_clause <- paste(sprintf('"%s" = EXCLUDED."%s"', update_cols, updat
 sql <- sprintf("
   INSERT INTO hml_scored_surveys (%s)
   SELECT %s FROM temp_scored_surveys
-  ON CONFLICT (%s) DO UPDATE SET %s
+  ON CONFLICT ON CONSTRAINT hml_scored_surveys_pkey DO UPDATE SET %s
 ",
                paste(quoted_cols, collapse = ", "),
                paste(quoted_cols, collapse = ", "),
-               quoted_key_col,
                quoted_update_clause
 )
 
