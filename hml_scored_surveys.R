@@ -329,6 +329,10 @@ scored_surveys <- select(stress, hml_id, visit, stress_total) %>%
                    qpar_mild_dose, qpar_moderate_dose, qpar_heavy_dose), 
             by = c("hml_id", "visit"))
 
+# Strip dose1..dose8
+scored_surveys <- scored_surveys %>%
+  dplyr::select(-dplyr::any_of(paste0("dose", 1:8)))
+
 write.csv(scored_surveys, file = "hml_scored_surveys.csv", row.names = FALSE)
 
 # Database section
